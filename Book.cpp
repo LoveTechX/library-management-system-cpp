@@ -27,6 +27,17 @@ void Book::inputBook()
     issued = false;
 }
 
+void Book::inputBookWithoutId()
+{
+    cout << "Enter Book Title: ";
+    getline(cin, title);
+
+    cout << "Enter Author Name: ";
+    getline(cin, author);
+
+    issued = false;
+}
+
 void Book::displayBook() const
 {
     cout << left << setw(8) << id
@@ -42,6 +53,8 @@ string Book::getTitle() const { return title; }
 string Book::getAuthor() const { return author; }
 
 bool Book::isIssued() const { return issued; }
+
+void Book::setId(int newId) { id = newId; }
 
 void Book::setIssued(bool status) { issued = status; }
 

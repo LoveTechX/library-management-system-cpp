@@ -16,6 +16,7 @@ public:
     Book(int id, const std::string &title, const std::string &author, bool issued);
 
     void inputBook();
+    void inputBookWithoutId();
     void displayBook() const;
 
     int getId() const;
@@ -23,6 +24,7 @@ public:
     std::string getAuthor() const;
     bool isIssued() const;
 
+    void setId(int newId);
     void setIssued(bool status);
     std::string toFileString() const;
 };

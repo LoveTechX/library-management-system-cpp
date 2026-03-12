@@ -15,6 +15,9 @@ private:
     std::vector<Member> members;
     std::vector<BorrowRecord> borrowRecords;
 
+    int nextBookId;
+    int nextMemberId;
+
     const std::string booksFile = "books.txt";
     const std::string membersFile = "members.txt";
     const std::string borrowRecordsFile = "borrow_records.txt";
@@ -31,6 +34,9 @@ private:
     std::string getCurrentDate() const;
     std::string getBookTitleById(int id) const;
     std::string getMemberNameById(int id) const;
+
+    std::string generateBookId();
+    std::string generateMemberId();
 
 public:
     Library();

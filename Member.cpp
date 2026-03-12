@@ -21,6 +21,12 @@ void Member::inputMember()
     getline(cin, name);
 }
 
+void Member::inputMemberWithoutId()
+{
+    cout << "Enter Member Name: ";
+    getline(cin, name);
+}
+
 void Member::displayMember() const
 {
     cout << left << setw(10) << id << setw(30) << name << '\n';
@@ -29,6 +35,8 @@ void Member::displayMember() const
 int Member::getId() const { return id; }
 
 string Member::getName() const { return name; }
+
+void Member::setId(int newId) { id = newId; }
 
 string Member::toFileString() const
 {

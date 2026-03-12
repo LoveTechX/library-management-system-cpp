@@ -249,27 +249,75 @@ string Library::getMemberNameById(int id) const
     return "Unknown Member";
 }
 
+string Library::generateBookId()
+{
+    ostringstream oss;
+    oss << "B" << nextBookId;
+    nextBookId++;
+    return oss.str();
+}
+
+string Library::generateMemberId()
+{
+    ostringstream oss;
+    oss << "M" << nextMemberId;
+    nextMemberId++;
+    return oss.str();
+}
+
 Library::Library()
 {
+    nextBookId = 1001;
+    nextMemberId = 2001;
+
     loadBooks();
     loadMembers();
     loadBorrowRecords();
+
+    // Update nextBookId based on existing books
+    for (size_t i = 0; i < books.size(); ++i)
+    {
+        int bookNumId = books[i].getId();
+        // Extract numeric part from ID if it's numeric
+        if (bookNumId >= 1001)
+        {
+            if (bookNumId >= nextBookId)
+            {
+                nextBookId = bookNumId + 1;
+            }
+        }
+    }
+
+    // Update nextMemberId based on existing members
+    for (size_t i = 0; i < members.size(); ++i)
+    {
+        int memberNumId = members[i].getId();
+        // Extract numeric part from ID if it's numeric
+        if (memberNumId >= 2001)
+        {
+            if (memberNumId >= nextMemberId)
+            {
+                nextMemberId = memberNumId + 1;
+            }
+        }
+    }
 }
 
 void Library::addBook()
 {
     Book b;
-    b.inputBook();
+    string bookId = generateBookId();
 
-    if (isBookIdExists(b.getId()))
-    {
-        cout << "Book with this ID already exists.\n";
-        return;
-    }
+    // Extract numeric part for storage
+    int numericId = stoi(bookId.substr(1));
+    b.setId(numericId);
+
+    b.inputBookWithoutId();
 
     books.push_back(b);
     saveBooks();
-    cout << "Book added successfully.\n";
+    cout << "Book added successfully\n";
+    cout << "Book ID: " << bookId << "\n";
 }
 
 void Library::displayBooks() const
@@ -340,17 +388,18 @@ void Library::deleteBook()
 void Library::addMember()
 {
     Member m;
-    m.inputMember();
+    string memberId = generateMemberId();
 
-    if (isMemberIdExists(m.getId()))
-    {
-        cout << "Member with this ID already exists.\n";
-        return;
-    }
+    // Extract numeric part for storage
+    int numericId = stoi(memberId.substr(1));
+    m.setId(numericId);
+
+    m.inputMemberWithoutId();
 
     members.push_back(m);
     saveMembers();
-    cout << "Member added successfully.\n";
+    cout << "Member added successfully\n";
+    cout << "Member ID: " << memberId << "\n";
 }
 
 void Library::displayMembers() const
