@@ -1,0 +1,16 @@
+Library Management System - Compile and Run Instructions
+
+1. Open a terminal in the project root folder.
+
+2. Compile the project using:
+
+g++ -std=c++17 src/main.cpp src/Library.cpp src/Book.cpp src/Member.cpp src/BorrowRecord.cpp src/UI.cpp -o lms
+
+3. Run the program using:
+
+./lms
+
+Notes:
+- Keep the src and data folders in the project root.
+- The program reads and writes its records from the data folder.
+- If you are using Windows Command Prompt with MinGW, the output executable may also be run as lms.exe.

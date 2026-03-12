@@ -18,9 +18,9 @@ private:
     int nextBookId;
     int nextMemberId;
 
-    const std::string booksFile = "books.txt";
-    const std::string membersFile = "members.txt";
-    const std::string borrowRecordsFile = "borrow_records.txt";
+    const std::string booksFile = "data/books.txt";
+    const std::string membersFile = "data/members.txt";
+    const std::string borrowRecordsFile = "data/borrow_records.txt";
 
     void loadBooks();
     void saveBooks() const;
@@ -54,6 +54,7 @@ public:
     void returnBook();
     void displayIssuedBooks() const;
     void displayBorrowHistory();
+    void showStatistics() const;
 };
 
 #endif

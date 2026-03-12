@@ -34,19 +34,29 @@ void UI::printHeader(const std::string &title)
 
 void UI::printMenu()
 {
-    cout << "   1. Add Book\n";
-    cout << "   2. Display Books\n";
-    cout << "   3. Search Book by Title\n";
-    cout << "   4. Search Book by Author\n";
-    cout << "   5. Delete Book\n";
-    cout << "   6. Add Member\n";
-    cout << "   7. Display Members\n";
-    cout << "   8. Search Member\n";
-    cout << "   9. Issue Book\n";
+    cout << "   [ BOOK MANAGEMENT ]\n";
+    cout << "   1.  Add Book\n";
+    cout << "   2.  Display Books\n";
+    cout << "   3.  Search Book by Title\n";
+    cout << "   4.  Search Book by Author\n";
+    cout << "   5.  Delete Book\n";
+    cout << "\n";
+    cout << "   [ MEMBER MANAGEMENT ]\n";
+    cout << "   6.  Add Member\n";
+    cout << "   7.  Display Members\n";
+    cout << "   8.  Search Member\n";
+    cout << "\n";
+    cout << "   [ TRANSACTIONS ]\n";
+    cout << "   9.  Issue Book\n";
     cout << "   10. Return Book\n";
+    cout << "\n";
+    cout << "   [ RECORDS ]\n";
     cout << "   11. Display Issued Books\n";
     cout << "   12. View Borrow History\n";
-    cout << "   13. Exit\n";
+    cout << "\n";
+    cout << "   [ SYSTEM ]\n";
+    cout << "   13. Library Statistics\n";
+    cout << "   14. Exit\n";
     cout << "\n   Enter your choice: ";
 }
 

@@ -668,3 +668,33 @@ void Library::displayBorrowHistory()
              << setw(8) << borrowRecords[i].getFine() << '\n';
     }
 }
+
+void Library::showStatistics() const
+{
+    int totalBooks = books.size();
+    int totalMembers = members.size();
+    int issuedBooks = 0;
+
+    // Count issued books
+    for (size_t i = 0; i < books.size(); ++i)
+    {
+        if (books[i].isIssued())
+        {
+            issuedBooks++;
+        }
+    }
+
+    int availableBooks = totalBooks - issuedBooks;
+
+    cout << "\n";
+    UI::printDivider();
+    UI::printCentered("LIBRARY STATISTICS");
+    UI::printDivider();
+    cout << "\n";
+    cout << "   Total Books:      " << totalBooks << "\n";
+    cout << "   Total Members:    " << totalMembers << "\n";
+    cout << "   Issued Books:     " << issuedBooks << "\n";
+    cout << "   Available Books:  " << availableBooks << "\n";
+    cout << "\n";
+    UI::printDivider();
+}

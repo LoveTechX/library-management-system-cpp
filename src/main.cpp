@@ -19,7 +19,7 @@ int main()
 
         if (!(cin >> choice))
         {
-            UI::printError("Invalid input. Please enter a number from 1 to 13");
+            UI::printError("Invalid input. Please enter a number from 1 to 14");
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -125,21 +125,29 @@ int main()
         case 13:
         {
             UI::clearScreen();
+            UI::printHeader("LIBRARY STATISTICS");
+            library.showStatistics();
+            UI::pause();
+            break;
+        }
+        case 14:
+        {
+            UI::clearScreen();
             UI::printBoxed("Thank you for using Library Management System!");
             cout << "\nGoodbye!\n";
             break;
         }
         default:
-            UI::printError("Invalid choice. Please select between 1 and 13");
+            UI::printError("Invalid choice. Please select between 1 and 14");
             continue;
         }
 
-        if (choice != 13)
+        if (choice != 14)
         {
             UI::printHeader("LIBRARY MANAGEMENT SYSTEM");
         }
 
-    } while (choice != 13);
+    } while (choice != 14);
 
     return 0;
 }
