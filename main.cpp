@@ -2,38 +2,24 @@
 #include <limits>
 
 #include "Library.h"
+#include "UI.h"
 
 using namespace std;
-
-void showMenu()
-{
-    cout << "\n========= LIBRARY MANAGEMENT SYSTEM =========\n";
-    cout << "1. Add Book\n";
-    cout << "2. Display Books\n";
-    cout << "3. Search Book\n";
-    cout << "4. Delete Book\n";
-    cout << "5. Add Member\n";
-    cout << "6. Display Members\n";
-    cout << "7. Issue Book\n";
-    cout << "8. Return Book\n";
-    cout << "9. Display Issued Books\n";
-    cout << "10. View Borrow History\n";
-    cout << "11. Exit\n";
-    cout << "Enter your choice: ";
-}
 
 int main()
 {
     Library library;
     int choice;
 
+    UI::printHeader("LIBRARY MANAGEMENT SYSTEM");
+
     do
     {
-        showMenu();
+        UI::printMenu();
 
         if (!(cin >> choice))
         {
-            cout << "Invalid input. Please enter a number from 1 to 11.\n";
+            UI::printError("Invalid input. Please enter a number from 1 to 11");
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -44,41 +30,101 @@ int main()
         switch (choice)
         {
         case 1:
+        {
+            UI::clearScreen();
+            UI::printHeader("ADD BOOK");
             library.addBook();
+            UI::pause();
             break;
+        }
         case 2:
+        {
+            UI::clearScreen();
+            UI::printHeader("BOOK LIST");
             library.displayBooks();
+            UI::pause();
             break;
+        }
         case 3:
+        {
+            UI::clearScreen();
+            UI::printHeader("SEARCH BOOK");
             library.searchBook();
             break;
-        case 4:
-            library.deleteBook();
-            break;
-        case 5:
-            library.addMember();
-            break;
-        case 6:
-            library.displayMembers();
-            break;
-        case 7:
-            library.issueBook();
-            break;
-        case 8:
-            library.returnBook();
-            break;
-        case 9:
-            library.displayIssuedBooks();
-            break;
-        case 10:
-            library.displayBorrowHistory();
-            break;
-        case 11:
-            cout << "Exiting program... Goodbye!\n";
-            break;
-        default:
-            cout << "Invalid choice. Please select between 1 and 11.\n";
         }
+        case 4:
+        {
+            UI::clearScreen();
+            UI::printHeader("DELETE BOOK");
+            library.deleteBook();
+            UI::pause();
+            break;
+        }
+        case 5:
+        {
+            UI::clearScreen();
+            UI::printHeader("ADD MEMBER");
+            library.addMember();
+            UI::pause();
+            break;
+        }
+        case 6:
+        {
+            UI::clearScreen();
+            UI::printHeader("MEMBER LIST");
+            library.displayMembers();
+            UI::pause();
+            break;
+        }
+        case 7:
+        {
+            UI::clearScreen();
+            UI::printHeader("ISSUE BOOK");
+            library.issueBook();
+            UI::pause();
+            break;
+        }
+        case 8:
+        {
+            UI::clearScreen();
+            UI::printHeader("RETURN BOOK");
+            library.returnBook();
+            UI::pause();
+            break;
+        }
+        case 9:
+        {
+            UI::clearScreen();
+            UI::printHeader("ISSUED BOOKS");
+            library.displayIssuedBooks();
+            UI::pause();
+            break;
+        }
+        case 10:
+        {
+            UI::clearScreen();
+            UI::printHeader("BORROW HISTORY");
+            library.displayBorrowHistory();
+            UI::pause();
+            break;
+        }
+        case 11:
+        {
+            UI::clearScreen();
+            UI::printBoxed("Thank you for using Library Management System!");
+            cout << "\nGoodbye!\n";
+            break;
+        }
+        default:
+            UI::printError("Invalid choice. Please select between 1 and 11");
+            continue;
+        }
+
+        if (choice != 11)
+        {
+            UI::printHeader("LIBRARY MANAGEMENT SYSTEM");
+        }
+
     } while (choice != 11);
 
     return 0;
