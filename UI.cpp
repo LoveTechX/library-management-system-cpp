@@ -36,15 +36,17 @@ void UI::printMenu()
 {
     cout << "   1. Add Book\n";
     cout << "   2. Display Books\n";
-    cout << "   3. Search Book\n";
-    cout << "   4. Delete Book\n";
-    cout << "   5. Add Member\n";
-    cout << "   6. Display Members\n";
-    cout << "   7. Issue Book\n";
-    cout << "   8. Return Book\n";
-    cout << "   9. Display Issued Books\n";
-    cout << "   10. View Borrow History\n";
-    cout << "   11. Exit\n";
+    cout << "   3. Search Book by Title\n";
+    cout << "   4. Search Book by Author\n";
+    cout << "   5. Delete Book\n";
+    cout << "   6. Add Member\n";
+    cout << "   7. Display Members\n";
+    cout << "   8. Search Member\n";
+    cout << "   9. Issue Book\n";
+    cout << "   10. Return Book\n";
+    cout << "   11. Display Issued Books\n";
+    cout << "   12. View Borrow History\n";
+    cout << "   13. Exit\n";
     cout << "\n   Enter your choice: ";
 }
 

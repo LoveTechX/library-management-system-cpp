@@ -1,5 +1,7 @@
 #include "Library.h"
+#include "UI.h"
 
+#include <algorithm>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -365,6 +367,66 @@ void Library::searchBook() const
     cout << "Book not found.\n";
 }
 
+void Library::searchBookByTitle() const
+{
+    string query;
+    cout << "Enter title to search: ";
+    cin.ignore();
+    getline(cin, query);
+
+    string lowerQuery = query;
+    transform(lowerQuery.begin(), lowerQuery.end(), lowerQuery.begin(), ::tolower);
+
+    vector<Book> results;
+    for (size_t i = 0; i < books.size(); ++i)
+    {
+        string lowerTitle = books[i].getTitle();
+        transform(lowerTitle.begin(), lowerTitle.end(), lowerTitle.begin(), ::tolower);
+        if (lowerTitle.find(lowerQuery) != string::npos)
+        {
+            results.push_back(books[i]);
+        }
+    }
+
+    if (results.empty())
+    {
+        UI::printError("No records found");
+        return;
+    }
+
+    UI::printBookTable(results);
+}
+
+void Library::searchBookByAuthor() const
+{
+    string query;
+    cout << "Enter author to search: ";
+    cin.ignore();
+    getline(cin, query);
+
+    string lowerQuery = query;
+    transform(lowerQuery.begin(), lowerQuery.end(), lowerQuery.begin(), ::tolower);
+
+    vector<Book> results;
+    for (size_t i = 0; i < books.size(); ++i)
+    {
+        string lowerAuthor = books[i].getAuthor();
+        transform(lowerAuthor.begin(), lowerAuthor.end(), lowerAuthor.begin(), ::tolower);
+        if (lowerAuthor.find(lowerQuery) != string::npos)
+        {
+            results.push_back(books[i]);
+        }
+    }
+
+    if (results.empty())
+    {
+        UI::printError("No records found");
+        return;
+    }
+
+    UI::printBookTable(results);
+}
+
 void Library::deleteBook()
 {
     int id;
@@ -418,6 +480,36 @@ void Library::displayMembers() const
     {
         members[i].displayMember();
     }
+}
+
+void Library::searchMemberByName() const
+{
+    string query;
+    cout << "Enter member name to search: ";
+    cin.ignore();
+    getline(cin, query);
+
+    string lowerQuery = query;
+    transform(lowerQuery.begin(), lowerQuery.end(), lowerQuery.begin(), ::tolower);
+
+    vector<Member> results;
+    for (size_t i = 0; i < members.size(); ++i)
+    {
+        string lowerName = members[i].getName();
+        transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+        if (lowerName.find(lowerQuery) != string::npos)
+        {
+            results.push_back(members[i]);
+        }
+    }
+
+    if (results.empty())
+    {
+        UI::printError("No records found");
+        return;
+    }
+
+    UI::printMemberTable(results);
 }
 
 void Library::issueBook()

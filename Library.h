@@ -44,9 +44,12 @@ public:
     void addBook();
     void displayBooks() const;
     void searchBook() const;
+    void searchBookByTitle() const;
+    void searchBookByAuthor() const;
     void deleteBook();
     void addMember();
     void displayMembers() const;
+    void searchMemberByName() const;
     void issueBook();
     void returnBook();
     void displayIssuedBooks() const;

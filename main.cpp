@@ -19,7 +19,7 @@ int main()
 
         if (!(cin >> choice))
         {
-            UI::printError("Invalid input. Please enter a number from 1 to 11");
+            UI::printError("Invalid input. Please enter a number from 1 to 13");
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -48,11 +48,18 @@ int main()
         case 3:
         {
             UI::clearScreen();
-            UI::printHeader("SEARCH BOOK");
-            library.searchBook();
+            UI::printHeader("SEARCH BOOK BY TITLE");
+            library.searchBookByTitle();
             break;
         }
         case 4:
+        {
+            UI::clearScreen();
+            UI::printHeader("SEARCH BOOK BY AUTHOR");
+            library.searchBookByAuthor();
+            break;
+        }
+        case 5:
         {
             UI::clearScreen();
             UI::printHeader("DELETE BOOK");
@@ -60,7 +67,7 @@ int main()
             UI::pause();
             break;
         }
-        case 5:
+        case 6:
         {
             UI::clearScreen();
             UI::printHeader("ADD MEMBER");
@@ -68,7 +75,7 @@ int main()
             UI::pause();
             break;
         }
-        case 6:
+        case 7:
         {
             UI::clearScreen();
             UI::printHeader("MEMBER LIST");
@@ -76,7 +83,14 @@ int main()
             UI::pause();
             break;
         }
-        case 7:
+        case 8:
+        {
+            UI::clearScreen();
+            UI::printHeader("SEARCH MEMBER");
+            library.searchMemberByName();
+            break;
+        }
+        case 9:
         {
             UI::clearScreen();
             UI::printHeader("ISSUE BOOK");
@@ -84,7 +98,7 @@ int main()
             UI::pause();
             break;
         }
-        case 8:
+        case 10:
         {
             UI::clearScreen();
             UI::printHeader("RETURN BOOK");
@@ -92,7 +106,7 @@ int main()
             UI::pause();
             break;
         }
-        case 9:
+        case 11:
         {
             UI::clearScreen();
             UI::printHeader("ISSUED BOOKS");
@@ -100,7 +114,7 @@ int main()
             UI::pause();
             break;
         }
-        case 10:
+        case 12:
         {
             UI::clearScreen();
             UI::printHeader("BORROW HISTORY");
@@ -108,7 +122,7 @@ int main()
             UI::pause();
             break;
         }
-        case 11:
+        case 13:
         {
             UI::clearScreen();
             UI::printBoxed("Thank you for using Library Management System!");
@@ -116,16 +130,16 @@ int main()
             break;
         }
         default:
-            UI::printError("Invalid choice. Please select between 1 and 11");
+            UI::printError("Invalid choice. Please select between 1 and 13");
             continue;
         }
 
-        if (choice != 11)
+        if (choice != 13)
         {
             UI::printHeader("LIBRARY MANAGEMENT SYSTEM");
         }
 
-    } while (choice != 11);
+    } while (choice != 13);
 
     return 0;
 }
