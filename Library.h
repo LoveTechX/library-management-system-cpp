@@ -44,6 +44,7 @@ public:
     void issueBook();
     void returnBook();
     void displayIssuedBooks() const;
+    void displayBorrowHistory();
 };
 
 #endif

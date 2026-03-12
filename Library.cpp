@@ -8,6 +8,46 @@
 
 using namespace std;
 
+namespace
+{
+    int calculateDaysBetween(const string &startDate, const string &endDate)
+    {
+        tm startTime = {};
+        tm endTime = {};
+
+        istringstream startStream(startDate);
+        istringstream endStream(endDate);
+
+        startStream >> get_time(&startTime, "%Y-%m-%d");
+        endStream >> get_time(&endTime, "%Y-%m-%d");
+
+        if (startStream.fail() || endStream.fail())
+        {
+            return 0;
+        }
+
+        // Use noon to avoid daylight saving edge cases when converting to time_t.
+        startTime.tm_hour = 12;
+        endTime.tm_hour = 12;
+
+        time_t start = mktime(&startTime);
+        time_t end = mktime(&endTime);
+
+        if (start == -1 || end == -1)
+        {
+            return 0;
+        }
+
+        double seconds = difftime(end, start);
+        if (seconds < 0)
+        {
+            return 0;
+        }
+
+        return static_cast<int>(seconds / (60 * 60 * 24));
+    }
+}
+
 void Library::loadBooks()
 {
     ifstream fin(booksFile);
@@ -116,19 +156,26 @@ void Library::loadBorrowRecords()
         }
 
         stringstream ss(line);
-        string bookIdStr, memberIdStr, issueDate, returnDate;
+        string bookIdStr, memberIdStr, issueDate, returnDate, fineStr;
 
         getline(ss, bookIdStr, '|');
         getline(ss, memberIdStr, '|');
         getline(ss, issueDate, '|');
         getline(ss, returnDate, '|');
+        getline(ss, fineStr, '|');
 
         if (bookIdStr.empty() || memberIdStr.empty() || issueDate.empty())
         {
             continue;
         }
 
-        borrowRecords.push_back(BorrowRecord(stoi(bookIdStr), stoi(memberIdStr), issueDate, returnDate));
+        int fine = 0;
+        if (!fineStr.empty())
+        {
+            fine = stoi(fineStr);
+        }
+
+        borrowRecords.push_back(BorrowRecord(stoi(bookIdStr), stoi(memberIdStr), issueDate, returnDate, fine));
     }
 }
 
@@ -378,18 +425,41 @@ void Library::returnBook()
                 return;
             }
 
-            books[i].setIssued(false);
+            BorrowRecord *activeRecord = nullptr;
             for (size_t j = borrowRecords.size(); j > 0; --j)
             {
                 if (borrowRecords[j - 1].getBookId() == bookId && !borrowRecords[j - 1].isReturned())
                 {
-                    borrowRecords[j - 1].setReturnDate(getCurrentDate());
+                    activeRecord = &borrowRecords[j - 1];
                     break;
                 }
             }
+
+            if (activeRecord == nullptr)
+            {
+                cout << "No active borrow record found for this book.\n";
+                return;
+            }
+
+            string returnDate = getCurrentDate();
+            int daysBorrowed = calculateDaysBetween(activeRecord->getIssueDate(), returnDate);
+            int fine = activeRecord->calculateFine(daysBorrowed);
+            int lateDays = 0;
+
+            if (daysBorrowed > 7)
+            {
+                lateDays = daysBorrowed - 7;
+            }
+
+            books[i].setIssued(false);
+            activeRecord->setReturnDate(returnDate);
+            activeRecord->setFine(fine);
+
             saveBooks();
             saveBorrowRecords();
-            cout << "Book returned successfully and marked available.\n";
+            cout << "Book returned successfully\n";
+            cout << "Late by " << lateDays << " days\n";
+            cout << "Fine to pay: ₹" << fine << '\n';
             return;
         }
     }
@@ -401,13 +471,11 @@ void Library::displayIssuedBooks() const
 {
     bool hasIssuedBooks = false;
 
-    cout << "\n=========================== ISSUED BOOKS ===========================\n";
+    cout << "\n=============== ISSUED BOOKS ===============\n";
     cout << left << setw(10) << "Book ID"
-         << setw(30) << "Title"
          << setw(12) << "Member ID"
-         << setw(25) << "Member Name"
          << setw(15) << "Issue Date" << '\n';
-    cout << string(92, '-') << '\n';
+    cout << string(37, '-') << '\n';
 
     for (size_t i = 0; i < borrowRecords.size(); ++i)
     {
@@ -418,14 +486,44 @@ void Library::displayIssuedBooks() const
 
         hasIssuedBooks = true;
         cout << left << setw(10) << borrowRecords[i].getBookId()
-             << setw(30) << getBookTitleById(borrowRecords[i].getBookId())
              << setw(12) << borrowRecords[i].getMemberId()
-             << setw(25) << getMemberNameById(borrowRecords[i].getMemberId())
              << setw(15) << borrowRecords[i].getIssueDate() << '\n';
     }
 
     if (!hasIssuedBooks)
     {
         cout << "No books are currently issued.\n";
+    }
+}
+
+void Library::displayBorrowHistory()
+{
+    if (borrowRecords.empty())
+    {
+        cout << "No borrow history found.\n";
+        return;
+    }
+
+    cout << "\n========================== BORROW HISTORY ==========================\n";
+    cout << left << setw(10) << "Book ID"
+         << setw(12) << "Member ID"
+         << setw(15) << "Issue Date"
+         << setw(15) << "Return Date"
+         << setw(8) << "Fine" << '\n';
+    cout << string(60, '-') << '\n';
+
+    for (size_t i = 0; i < borrowRecords.size(); ++i)
+    {
+        string returnDate = borrowRecords[i].getReturnDate();
+        if (returnDate.empty())
+        {
+            returnDate = "Not Returned";
+        }
+
+        cout << left << setw(10) << borrowRecords[i].getBookId()
+             << setw(12) << borrowRecords[i].getMemberId()
+             << setw(15) << borrowRecords[i].getIssueDate()
+             << setw(15) << returnDate
+             << setw(8) << borrowRecords[i].getFine() << '\n';
     }
 }
