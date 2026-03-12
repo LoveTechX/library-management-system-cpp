@@ -16,7 +16,8 @@ void showMenu()
     cout << "6. Display Members\n";
     cout << "7. Issue Book\n";
     cout << "8. Return Book\n";
-    cout << "9. Exit\n";
+    cout << "9. Display Issued Books\n";
+    cout << "10. Exit\n";
     cout << "Enter your choice: ";
 }
 
@@ -31,7 +32,7 @@ int main()
 
         if (!(cin >> choice))
         {
-            cout << "Invalid input. Please enter a number from 1 to 9.\n";
+            cout << "Invalid input. Please enter a number from 1 to 10.\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -66,12 +67,15 @@ int main()
             library.returnBook();
             break;
         case 9:
+            library.displayIssuedBooks();
+            break;
+        case 10:
             cout << "Exiting program... Goodbye!\n";
             break;
         default:
-            cout << "Invalid choice. Please select between 1 and 9.\n";
+            cout << "Invalid choice. Please select between 1 and 10.\n";
         }
-    } while (choice != 9);
+    } while (choice != 10);
 
     return 0;
 }
